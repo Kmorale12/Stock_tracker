@@ -7,6 +7,8 @@ import 'login_screen.dart';
 import 'stock_feed_screen.dart';
 import 'settings_screen.dart';
 
+ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -16,34 +18,21 @@ void main() async {
 class StockTrackerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Stock Tracker App',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.system,
-      home: AuthWrapper(), // Handle navigation based on auth state
-      routes: {
-        '/login': (context) => LoginScreen(),
-        '/stock_feed': (context) => StockFeedScreen(),
-        '/settings': (context) => SettingsScreen(),
-      },
-    );
-  }
-}
-
-class AuthWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return SplashScreen(); // Show a splash screen while checking auth state
-        }
-        if (snapshot.hasData) {
-          return StockFeedScreen(); // User is logged in
-        }
-        return LoginScreen(); // User is not logged in
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeNotifier,
+      builder: (context, currentMode, child) {
+        return MaterialApp(
+          title: 'Stock Tracker App',
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          themeMode: currentMode, // Dynamic theme
+          home: LoginScreen(), // Set LoginScreen as the default starting point
+          routes: {
+            '/login': (context) => LoginScreen(),
+            '/stock_feed': (context) => StockFeedScreen(),
+            '/settings': (context) => SettingsScreen(themeNotifier: themeNotifier),
+          },
+        );
       },
     );
   }
