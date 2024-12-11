@@ -42,94 +42,116 @@ class _StockFeedScreenState extends State<StockFeedScreen> {
     return stocks;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Stock Feed'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.favorite),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FavoritesScreen(
-                    favorites: favorites,
-                    fetchStockData: fetchStockData,
-                  ),
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Stock Feed'),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.favorite),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FavoritesScreen(
+                  favorites: favorites,
+                  fetchStockData: fetchStockData,
                 ),
+              ),
+            );
+          },
+        ),
+      ],
+    ),
+    body: Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            decoration: InputDecoration(
+              labelText: 'Search Stocks',
+              border: OutlineInputBorder(),
+            ),
+            onChanged: (query) {
+              setState(() {
+                filteredSymbols = symbols
+                    .where((symbol) =>
+                        symbol.toLowerCase().contains(query.toLowerCase()))
+                    .toList();
+              });
+            },
+          ),
+        ),
+        Expanded(
+          child: FutureBuilder<List<Map<String, dynamic>>>(
+            future: fetchStockData(filteredSymbols),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text('No stock data available.'));
+              }
+
+              final stocks = snapshot.data!;
+              return ListView.builder(
+                itemCount: stocks.length,
+                itemBuilder: (context, index) {
+                  final stock = stocks[index];
+                  final isFavorite = favorites.contains(stock['symbol']);
+                  return ListTile(
+                    title: Text('${stock['symbol']}'),
+                    subtitle: Text(
+                        'Current: \$${stock['currentPrice']} | High: \$${stock['highPrice']} | Low: \$${stock['lowPrice']}'),
+                    trailing: IconButton(
+                      icon: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : null,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          if (isFavorite) {
+                            favorites.remove(stock['symbol']);
+                          } else {
+                            favorites.add(stock['symbol']);
+                          }
+                        });
+                      },
+                    ),
+                  );
+                },
               );
             },
           ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: 'Search Stocks',
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (query) {
-                setState(() {
-                  filteredSymbols = symbols
-                      .where((symbol) =>
-                          symbol.toLowerCase().contains(query.toLowerCase()))
-                      .toList();
-                });
-              },
-            ),
-          ),
-          Expanded(
-            child: FutureBuilder<List<Map<String, dynamic>>>(
-              future: fetchStockData(filteredSymbols),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No stock data available.'));
-                }
+        ),
+      ],
+    ),
+    bottomNavigationBar: BottomNavigationBar(
+      currentIndex: 0,
+      items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: 'Stocks'),
+        BottomNavigationBarItem(icon: Icon(Icons.article), label: 'News'),
+        BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+      ],
+      onTap: (index) {
+        switch (index) {
+          case 0:
+            Navigator.pushReplacementNamed(context, '/stock_feed');
+            break;
+          case 1:
+            Navigator.pushReplacementNamed(context, '/news_feed'); // Ensure this route is defined
+            break;
+          case 2:
+            Navigator.pushReplacementNamed(context, '/settings'); // Ensure this route is defined
+            break;
+        }
+      },
+    ),
+  );
+}
 
-                final stocks = snapshot.data!;
-                return ListView.builder(
-                  itemCount: stocks.length,
-                  itemBuilder: (context, index) {
-                    final stock = stocks[index];
-                    final isFavorite = favorites.contains(stock['symbol']);
-                    return ListTile(
-                      title: Text('${stock['symbol']}'),
-                      subtitle: Text(
-                          'Current: \$${stock['currentPrice']} | High: \$${stock['highPrice']} | Low: \$${stock['lowPrice']}'),
-                      trailing: IconButton(
-                        icon: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: isFavorite ? Colors.red : null,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            if (isFavorite) {
-                              favorites.remove(stock['symbol']);
-                            } else {
-                              favorites.add(stock['symbol']);
-                            }
-                          });
-                        },
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class FavoritesScreen extends StatelessWidget {

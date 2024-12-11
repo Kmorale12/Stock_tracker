@@ -6,7 +6,7 @@ import 'splash_screen.dart';
 import 'login_screen.dart';
 import 'stock_feed_screen.dart';
 import 'settings_screen.dart';
-
+import 'news_feed_screen.dart';
 ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
 
 void main() async {
@@ -31,6 +31,7 @@ class StockTrackerApp extends StatelessWidget {
             '/login': (context) => LoginScreen(),
             '/stock_feed': (context) => StockFeedScreen(),
             '/settings': (context) => SettingsScreen(themeNotifier: themeNotifier),
+            '/news_feed': (context) => NewsFeedScreen(),
           },
         );
       },
