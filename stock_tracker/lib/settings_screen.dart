@@ -89,6 +89,27 @@ class SettingsScreen extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 2, // Index for the Settings screen
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: 'Stocks'),
+          BottomNavigationBarItem(icon: Icon(Icons.article), label: 'News'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+        ],
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, '/stock_feed'); // Navigate to Stocks
+              break;
+            case 1:
+              Navigator.pushReplacementNamed(context, '/news_feed'); // Navigate to News
+              break;
+            case 2:
+              Navigator.pushReplacementNamed(context, '/settings'); // Navigate to Settings
+              break;
+          }
+        },
+      ),
     );
   }
 }

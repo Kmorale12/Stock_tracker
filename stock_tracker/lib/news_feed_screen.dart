@@ -28,13 +28,16 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   void openArticle(String url) async {
     final Uri encodedUrl = Uri.parse(url);
     if (await canLaunchUrl(encodedUrl)) {
-      await launchUrl(encodedUrl);
+      await launchUrl(
+        encodedUrl,
+        mode: LaunchMode.externalApplication, // Ensure it opens in a browser
+      );
     } else {
       throw 'Could not launch $url';
     }
   }
 
-  @override // Corrected here
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -68,6 +71,27 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
               );
             },
           );
+        },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1, // Index for the current screen
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: 'Stocks'),
+          BottomNavigationBarItem(icon: Icon(Icons.article), label: 'News'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+        ],
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, '/stock_feed'); // Stocks Screen
+              break;
+            case 1:
+              Navigator.pushReplacementNamed(context, '/news_feed'); // News Screen
+              break;
+            case 2:
+              Navigator.pushReplacementNamed(context, '/settings'); // Settings Screen
+              break;
+          }
         },
       ),
     );
