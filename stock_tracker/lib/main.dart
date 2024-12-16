@@ -26,7 +26,7 @@ class StockTrackerApp extends StatelessWidget {
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
           themeMode: currentMode, // Dynamic theme
-          home: LoginScreen(), // Set LoginScreen as the default starting point
+          home: LoginScreen(), 
           routes: {
             '/login': (context) => LoginScreen(),
             '/stock_feed': (context) => StockFeedScreen(),
