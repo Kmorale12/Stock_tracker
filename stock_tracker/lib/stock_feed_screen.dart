@@ -49,7 +49,7 @@ Widget build(BuildContext context) {
       title: Text('Stock Feed'),
       actions: [
         IconButton(
-          icon: Icon(Icons.favorite),
+          icon: Icon(Icons.favorite, color: Colors.red),
           onPressed: () {
             Navigator.push(
               context,
