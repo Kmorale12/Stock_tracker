@@ -4,8 +4,8 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 2), () {
-      // Simulate authentication check
-      bool isLoggedIn = false; // Replace with real auth logic
+      
+      bool isLoggedIn = false; 
       Navigator.pushReplacementNamed(
         context,
         isLoggedIn ? '/stock_feed' : '/login',

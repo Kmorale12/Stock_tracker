@@ -16,7 +16,7 @@ class _StockFeedScreenState extends State<StockFeedScreen> {
   @override
   void initState() {
     super.initState();
-    filteredSymbols = symbols; // Initialize the filtered symbols with all symbols
+    filteredSymbols = symbols; 
   }
 
   Future<List<Map<String, dynamic>>> fetchStockData(List<String> symbols) async {
