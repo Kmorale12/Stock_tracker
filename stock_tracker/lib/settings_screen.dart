@@ -11,7 +11,7 @@ class SettingsScreen extends StatelessWidget {
 
   SettingsScreen({required this.themeNotifier}) {
     _emailController.text = _user?.email ?? '';
-    // Fetch display name if needed from Firebase or other sources.
+    
   }
 
   Future<void> _updateAccount(BuildContext context) async {

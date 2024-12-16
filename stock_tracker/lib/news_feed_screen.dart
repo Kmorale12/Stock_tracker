@@ -9,7 +9,7 @@ class NewsFeedScreen extends StatefulWidget {
 }
 
 class _NewsFeedScreenState extends State<NewsFeedScreen> {
-  final String apiKey = "e8de8a1c4f4948c4b0b3b1c9d616cd89"; // Replace with your NewsAPI key
+  final String apiKey = "e8de8a1c4f4948c4b0b3b1c9d616cd89"; 
   final String baseUrl = "https://newsapi.org/v2/everything";
 
   Future<List<Map<String, dynamic>>> fetchNews() async {
@@ -30,7 +30,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
     if (await canLaunchUrl(encodedUrl)) {
       await launchUrl(
         encodedUrl,
-        mode: LaunchMode.externalApplication, // Ensure it opens in a browser
+        mode: LaunchMode.externalApplication,  // Launch in external browser
       );
     } else {
       throw 'Could not launch $url';
