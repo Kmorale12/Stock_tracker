@@ -7,6 +7,7 @@ import 'login_screen.dart';
 import 'stock_feed_screen.dart';
 import 'settings_screen.dart';
 import 'news_feed_screen.dart';
+
 ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
 
 void main() async {
@@ -23,10 +24,50 @@ class StockTrackerApp extends StatelessWidget {
       builder: (context, currentMode, child) {
         return MaterialApp(
           title: 'Stock Tracker App',
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
+          theme: ThemeData(
+            colorScheme: ColorScheme.light(
+              primary: Colors.blue,
+              secondary: Colors.blueAccent,
+            ),
+            textTheme: TextTheme(
+              bodyLarge: TextStyle(color: Colors.black, fontSize: 18),
+              bodyMedium: TextStyle(color: Colors.grey[700], fontSize: 16),
+            ),
+            buttonTheme: ButtonThemeData(
+              buttonColor: Colors.blue,
+              textTheme: ButtonTextTheme.primary,
+            ),
+            appBarTheme: AppBarTheme(
+              backgroundColor: Colors.blueAccent,
+              elevation: 0,
+              titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          darkTheme: ThemeData(
+            colorScheme: ColorScheme.dark(
+              primary: Colors.blue,
+              secondary: Colors.blueAccent,
+            ),
+            textTheme: TextTheme(
+              bodyLarge: TextStyle(color: Colors.white, fontSize: 18),
+              bodyMedium: TextStyle(color: Colors.grey[300], fontSize: 16),
+            ),
+            buttonTheme: ButtonThemeData(
+              buttonColor: Colors.blue,
+              textTheme: ButtonTextTheme.primary,
+            ),
+            appBarTheme: AppBarTheme(
+              backgroundColor: Colors.blueGrey,
+              elevation: 0,
+              titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
           themeMode: currentMode, // Dynamic theme
+<<<<<<< HEAD
           home: LoginScreen(), 
+=======
+          home: SplashScreen(), // Set SplashScreen as the default starting point
+>>>>>>> f2ce01dae7c66b39b1f15cc431c0c33cbc0d5c3f
           routes: {
             '/login': (context) => LoginScreen(),
             '/stock_feed': (context) => StockFeedScreen(),

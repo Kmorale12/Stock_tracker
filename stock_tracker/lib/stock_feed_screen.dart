@@ -49,7 +49,7 @@ Widget build(BuildContext context) {
       title: Text('Stock Feed'),
       actions: [
         IconButton(
-          icon: Icon(Icons.favorite),
+          icon: Icon(Icons.favorite, color: Colors.red),
           onPressed: () {
             Navigator.push(
               context,
@@ -108,7 +108,7 @@ Widget build(BuildContext context) {
                     trailing: IconButton(
                       icon: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : null,
+                        color: isFavorite ? Colors.blue : null,
                       ),
                       onPressed: () {
                         setState(() {
@@ -184,7 +184,7 @@ class FavoritesScreen extends StatelessWidget {
                 title: Text('${stock['symbol']}'),
                 subtitle: Text(
                     'Current: \$${stock['currentPrice']} | High: \$${stock['highPrice']} | Low: \$${stock['lowPrice']}'),
-                trailing: Icon(Icons.favorite, color: Colors.red),
+                trailing: Icon(Icons.favorite, color: const Color.fromARGB(255, 33, 150, 243)),
               );
             },
           );
