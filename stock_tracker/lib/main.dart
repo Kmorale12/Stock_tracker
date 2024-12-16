@@ -63,11 +63,8 @@ class StockTrackerApp extends StatelessWidget {
             ),
           ),
           themeMode: currentMode, // Dynamic theme
-<<<<<<< HEAD
-          home: LoginScreen(), 
-=======
           home: SplashScreen(), // Set SplashScreen as the default starting point
->>>>>>> f2ce01dae7c66b39b1f15cc431c0c33cbc0d5c3f
+
           routes: {
             '/login': (context) => LoginScreen(),
             '/stock_feed': (context) => StockFeedScreen(),
